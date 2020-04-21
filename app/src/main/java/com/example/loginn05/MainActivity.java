@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -17,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     private EditText edt_username,edt_password;
     private Button btn_login,btn_reset,btn_help;
     private TextView tv_result;
-    private int REQUEST_CODE;
+    private int REQUEST_CODE = 123;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(user.equals("sa") && pass.equals("sa")){
                     Intent intent = new Intent(MainActivity.this,WellcomeActivity.class);
-                    startActivityForResult(intent,REQUEST_CODE);
+                    startActivity(intent);
                 }
                 else {
                     Toast.makeText(MainActivity.this, "Sai thông tin đăng nhập", Toast.LENGTH_SHORT).show();
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this,HelpActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent,REQUEST_CODE);
             }
         });
     }
@@ -69,9 +70,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == REQUEST_CODE){
-            String s = data.getStringExtra("result");
-            tv_result.setText(s);
+        if (requestCode == REQUEST_CODE && resultCode == RESULT_OK){
+            String result = data.getStringExtra("result");
+            Log.d("LongDinh",result);
+            tv_result.setText(result);
         }
     }
 }
